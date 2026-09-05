@@ -1,0 +1,1231 @@
+/* Basic reset - browsers add weird default spacing, this removes it */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #111;
+  color: #eee;
+  padding: 16px;
+  max-width: 480px;   /* keeps it phone-width even on desktop, since that's the primary use case */
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin: 24px 0 8px;
+  color: #aaa;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+input {
+  background: #222;
+  border: 1px solid #444;
+  color: #eee;
+  padding: 12px;          /* big tap target for cold/gloved fingers */
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+input:focus {
+  border-color: #4da6ff;
+  outline: none;
+}
+
+.hits-row {
+  display: flex;
+  gap: 6px;
+}
+
+.hit-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.hit-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #4da6ff;
+}
+
+.hit-box input {
+  text-align: center;
+  padding: 12px 4px;
+}
+
+button {
+  background: #4da6ff;
+  color: #111;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+button:active {
+  background: #3a8ae0;
+}
+
+#string-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#string-list li {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.9rem;
+}
+
+/* ---- Phase 2: sessions ---- */
+
+.hidden {
+  display: none !important;
+}
+
+#start-session-btn {
+  width: 100%;
+}
+
+.session-meta {
+  margin-bottom: 16px;
+}
+
+.drill-entry {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.drill-entry h3 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: #4da6ff;
+}
+
+.string-list-mini {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.string-list-mini li {
+  font-size: 0.85rem;
+  color: #ccc;
+  background: #222;
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+.mini-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mini-time {
+  width: 100%;
+}
+
+.hits-row-mini {
+  display: flex;
+  gap: 6px;
+}
+
+.hits-row-mini input {
+  text-align: center;
+  padding: 10px 4px;
+  font-size: 0.9rem;
+}
+
+.log-string-btn {
+  padding: 10px;
+}
+
+.add-drill {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.add-drill input {
+  flex: 1;
+}
+
+.add-drill button {
+  width: auto;
+  padding: 12px 16px;
+}
+
+button.secondary {
+  background: transparent;
+  border: 1px solid #444;
+  color: #ccc;
+}
+
+/* ---- Phase 4: session history ---- */
+
+#view-history-btn {
+  margin-top: 8px;
+}
+
+#back-from-history-btn {
+  margin-bottom: 16px;
+  width: auto;
+  padding: 10px 16px;
+}
+
+.history-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.history-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.history-date {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.history-drills {
+  font-size: 0.85rem;
+  color: #ccc;
+  margin-bottom: 4px;
+}
+
+.history-count {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.empty-state {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* ---- Phase 3: personal records ---- */
+
+#view-prs-btn {
+  margin-top: 8px;
+}
+
+.pr-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.pr-card h3 {
+  font-size: 1rem;
+  color: #4da6ff;
+  margin-bottom: 8px;
+}
+
+.pr-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 6px;
+}
+
+.pr-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.pr-label {
+  font-size: 0.7rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.pr-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #eee;
+}
+
+.pr-count {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.pr-badge {
+  color: #ffd54d;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+/* ---- Phase v3: new-drill setup + multi-discipline ---- */
+
+.new-drill-setup {
+  background: #1a1a1a;
+  border: 1px solid #4da6ff;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.new-drill-setup h4 {
+  color: #4da6ff;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.new-drill-setup select,
+.new-drill-setup input {
+  background: #222;
+  border: 1px solid #444;
+  color: #eee;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+#new-drill-power-factor-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.discipline-tag {
+  font-size: 0.75rem;
+  color: #888;
+  margin-left: 6px;
+  font-weight: 400;
+}
+
+.mini-hit-count,
+.mini-miss-count {
+  text-align: center;
+  padding: 12px 4px;
+}
+
+/* ---- String edit/delete menu ---- */
+
+.string-list-mini li {
+  position: relative;
+  padding: 0;
+  overflow: visible;
+}
+
+.string-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+}
+
+.string-text {
+  flex: 1;
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.string-menu-btn {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 1.1rem;
+  padding: 2px 8px;
+  width: auto;
+  line-height: 1;
+}
+
+.string-menu {
+  display: flex;
+  gap: 6px;
+  padding: 6px 8px 8px;
+  border-top: 1px solid #333;
+}
+
+.string-menu button {
+  width: auto;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+}
+
+.edit-string-btn {
+  background: #333;
+  color: #eee;
+  border: none;
+}
+
+.delete-string-btn {
+  background: #3a1a1a;
+  color: #ff8080;
+  border: none;
+}
+
+.cancel-edit-btn {
+  margin-top: 4px;
+}
+
+/* ---- Session timer + rounds fired ---- */
+
+.session-stats-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+#session-timer {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #4da6ff;
+  font-variant-numeric: tabular-nums;
+}
+
+#session-rounds {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+/* ---- Backup section, drill removal, par hint ---- */
+
+.backup-section {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.backup-label {
+  font-size: 0.75rem;
+  color: #888;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.drill-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.drill-entry-header h3 {
+  margin-bottom: 0;
+}
+
+.remove-drill-btn {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 1.2rem;
+  padding: 0 4px;
+  width: auto;
+  line-height: 1;
+}
+
+.par-hint {
+  font-size: 0.8rem;
+  color: #ffd54d;
+  margin-bottom: -2px;
+}
+
+/* ---- End Drill / completed drill state ---- */
+
+.log-end-row {
+  display: flex;
+  gap: 8px;
+}
+
+.log-end-row .log-string-btn {
+  flex: 2;
+}
+
+.end-drill-btn {
+  flex: 1;
+  background: #4d1a1a;
+  color: #ff8080;
+  border: 1px solid #6b2626;
+  font-size: 0.85rem;
+  padding: 14px 4px;
+}
+
+.drill-entry-completed {
+  background: #161616;
+  border-color: #2a2a2a;
+  opacity: 0.85;
+}
+
+.drill-entry-completed h3 {
+  color: #888;
+}
+
+.session-best-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.session-best {
+  flex: 1;
+  background: #1f1f1f;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.session-best-label {
+  font-size: 0.7rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.session-best-value {
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+.session-best-pr {
+  background: #2a2410;
+  border-color: #ffd54d;
+}
+
+.session-best-pr .session-best-label {
+  color: #ffd54d;
+  font-weight: 700;
+}
+
+.session-best-pr .session-best-value {
+  color: #ffe9a8;
+}
+
+.edit-drill-btn {
+  width: auto;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  background: #333;
+  color: #eee;
+  border: none;
+}
+
+/* ---- Richer history cards: per-drill best string ---- */
+
+.history-drill-line {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0;
+  border-top: 1px solid #262626;
+}
+
+.history-drill-line:first-of-type {
+  border-top: none;
+}
+
+.history-drill-name {
+  font-size: 0.85rem;
+  color: #4da6ff;
+  font-weight: 600;
+}
+
+.history-drill-best {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+/* ---- History detail (editing a past session) ---- */
+
+.view-session-btn {
+  margin-top: 10px;
+}
+
+.history-detail-date {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* ---- Drill Library ---- */
+
+#view-drill-library-btn {
+  margin-top: 8px;
+}
+
+.drill-lib-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.drill-lib-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.drill-lib-header h3 {
+  font-size: 1rem;
+  color: #4da6ff;
+  margin-bottom: 0;
+}
+
+.drill-lib-header .edit-drill-lib-btn {
+  width: auto;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  background: #333;
+  color: #eee;
+  border: none;
+}
+
+.drill-lib-meta {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.drill-lib-card.editing {
+  border-color: #4da6ff;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.drill-lib-card.editing label {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 4px;
+}
+
+.drill-lib-card.editing select,
+.drill-lib-card.editing input {
+  background: #222;
+  border: 1px solid #444;
+  color: #eee;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+.edit-drill-power-factor-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.edit-drill-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.edit-drill-actions button {
+  flex: 1;
+}
+
+/* ---- Drill tags ---- */
+
+.tag-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #222;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.tag-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #ddd;
+}
+
+.tag-checkbox input {
+  width: auto;
+  padding: 0;
+}
+
+/* The .drill-lib-card.editing input rule (two classes) has higher specificity
+   than .tag-checkbox input (one class), so it was silently overriding the
+   checkbox back to a full-width styled input and breaking the layout. This
+   rule wins over both by being more specific than either individually. */
+.drill-lib-card.editing .tag-checkbox input {
+  width: auto;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.drill-lib-tags {
+  font-size: 0.75rem;
+  color: #4da6ff;
+  margin-top: 4px;
+}
+
+/* ---- Templates: home screen cards ---- */
+
+#template-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.template-card {
+  background: #1a2a3a;
+  border: 1px solid #4da6ff;
+  border-radius: 8px;
+  padding: 14px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.template-card-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #4da6ff;
+}
+
+.template-card-meta {
+  font-size: 0.8rem;
+  color: #99c2e0;
+}
+
+/* ---- Templates: management view ---- */
+
+#new-template-btn {
+  margin-bottom: 16px;
+}
+
+.template-lib-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.template-lib-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.template-lib-actions button {
+  width: auto;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  border: none;
+}
+
+.edit-template-btn {
+  background: #333;
+  color: #eee;
+}
+
+.delete-template-btn {
+  background: #4d1a1a;
+  color: #ff8080;
+}
+
+.template-drill-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #222;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+}
+
+.remove-template-drill-btn {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 1.1rem;
+  width: auto;
+  padding: 0 4px;
+}
+
+/* ---- Drill name links ---- */
+
+.drill-name-link {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  width: auto;
+  text-decoration: underline;
+  text-decoration-color: #4da6ff44;
+  text-underline-offset: 3px;
+}
+
+/* ---- Drill Detail popup ---- */
+
+#drill-detail-overlay, #exercise-detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+}
+
+#drill-detail-modal, #exercise-detail-modal {
+  background: #181818;
+  border: 1px solid #333;
+  border-radius: 16px 16px 0 0;
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.drill-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.drill-detail-header h3 {
+  color: #4da6ff;
+  font-size: 1.1rem;
+  margin-bottom: 0;
+}
+
+#close-drill-detail-btn {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 1.5rem;
+  width: auto;
+  padding: 0 6px;
+  line-height: 1;
+}
+
+.drill-detail-tabs {
+  display: flex;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.drill-detail-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #888;
+  padding: 12px 4px;
+  font-size: 0.85rem;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+}
+
+.drill-detail-tab.active {
+  color: #4da6ff;
+  border-bottom: 2px solid #4da6ff;
+}
+
+#drill-detail-content {
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.detail-about {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #262626;
+}
+
+.detail-label {
+  color: #888;
+}
+
+.detail-value {
+  color: #eee;
+  font-weight: 600;
+  text-align: right;
+}
+
+.detail-note {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 12px;
+  font-style: italic;
+}
+
+.detail-subheading {
+  font-size: 0.9rem;
+  color: #888;
+  margin: 16px 0 8px;
+}
+
+.detail-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-history-row {
+  background: #1f1f1f;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detail-history-date {
+  font-size: 0.7rem;
+  color: #4da6ff;
+}
+
+.detail-history-line {
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.chart-metric-label {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.drill-chart-svg {
+  width: 100%;
+  height: auto;
+}
+
+/* ---- Drill instructions ---- */
+
+.new-drill-setup textarea,
+.drill-lib-card.editing textarea {
+  background: #222;
+  border: 1px solid #444;
+  color: #eee;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  width: 100%;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.detail-instructions {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.detail-instructions p {
+  font-size: 0.9rem;
+  color: #ddd;
+  line-height: 1.5;
+}
+
+/* ---- Dry Fire ---- */
+
+#dry-fire-view label {
+  margin-top: 8px;
+}
+
+.dry-fire-status {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  padding: 40px 16px;
+  margin: 20px 0;
+  border-radius: 12px;
+  border: 2px solid #333;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.dry-fire-status-idle {
+  background: #1a1a1a;
+  color: #888;
+  border-color: #333;
+}
+
+.dry-fire-status-ready {
+  background: #2a2410;
+  color: #ffd54d;
+  border-color: #ffd54d;
+}
+
+.dry-fire-status-go {
+  background: #123a1e;
+  color: #4dff88;
+  border-color: #4dff88;
+}
+
+.dry-fire-status-par {
+  background: #1a2a3a;
+  color: #4da6ff;
+  border-color: #4da6ff;
+}
+
+.dry-fire-note {
+  font-size: 0.8rem;
+  color: #888;
+  text-align: center;
+  margin-top: 12px;
+}
+
+/* ---- Dry Fire: bigger Start button for one-finger tap ---- */
+
+#start-dry-fire-btn {
+  min-height: 90px;
+  font-size: 1.4rem;
+}
+
+/* ---- Dry Fire technique exercises ---- */
+
+.dry-fire-exercises-heading {
+  font-size: 0.95rem;
+  color: #888;
+  margin: 20px 0 10px;
+}
+
+#dry-fire-exercise-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.exercise-list-item {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #ddd;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.illustration-caption {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 6px;
+  font-style: italic;
+}
+
+/* ---- Home menu (top-level split) ---- */
+
+#home-menu-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.home-menu-btn {
+  padding: 40px 16px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border-radius: 12px;
+}
+
+#goto-training-btn {
+  background: #4da6ff;
+  color: #111;
+}
+
+#goto-match-tracking-btn {
+  background: #1a2a3a;
+  color: #4da6ff;
+  border: 2px solid #4da6ff;
+}
+
+#back-to-home-btn {
+  margin-bottom: 16px;
+}
+
+.section-subheading {
+  font-size: 1rem;
+  color: #4da6ff;
+  margin: 24px 0 10px;
+}
+
+/* ---- Match calendar ---- */
+
+#match-calendar {
+  margin-bottom: 16px;
+}
+
+.cal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: #eee;
+}
+
+.cal-header button {
+  width: auto;
+  padding: 6px 14px;
+}
+
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.7rem;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  font-size: 0.8rem;
+  color: #ccc;
+}
+
+.cal-cell.cal-empty {
+  background: transparent;
+  border: none;
+}
+
+.cal-cell.cal-completed {
+  background: #123a1e;
+  border-color: #4dff88;
+  color: #4dff88;
+  font-weight: 700;
+}
+
+.cal-cell.cal-upcoming {
+  background: #3a1616;
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+  font-weight: 700;
+}
+
+.cal-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 10px;
+}
+
+.cal-legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+/* ---- Match entry form and history ---- */
+
+#enter-match-btn {
+  margin-bottom: 16px;
+}
+
+.match-hits-row input {
+  font-size: 0.85rem;
+  padding: 10px 2px;
+}
+
+.match-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.match-badge-completed {
+  background: #123a1e;
+  color: #4dff88;
+}
+
+.match-badge-upcoming {
+  background: #3a1616;
+  color: #ff6b6b;
+}

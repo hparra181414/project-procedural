@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Procedural</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#111111">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Project Procedural</h1>
+
+  <!-- View 0: top-level split between Training and Match Tracking -->
+  <section id="home-menu-view">
+    <button id="goto-training-btn" class="home-menu-btn">Training</button>
+    <button id="goto-match-tracking-btn" class="home-menu-btn">Match Tracking</button>
+  </section>
+
+  <!-- View 1: shown when there's no active session -->
+  <section id="session-start-view" class="hidden">
+    <button id="back-to-home-btn" class="secondary">&larr; Home</button>
+
+    <div id="template-cards"></div>
+
+    <button id="start-session-btn">Start New Session</button>
+    <button id="view-history-btn" class="secondary">View Past Sessions</button>
+    <button id="view-prs-btn" class="secondary">Personal Records</button>
+    <button id="view-drill-library-btn" class="secondary">Drill Library</button>
+    <button id="view-templates-btn" class="secondary">Manage Templates</button>
+    <button id="view-dry-fire-btn" class="secondary">Dry Fire</button>
+
+    <div class="backup-section">
+      <p class="backup-label">Backup (your data lives only on this device)</p>
+      <button id="export-data-btn" class="secondary">Export Backup</button>
+      <button id="import-data-btn" class="secondary">Import Backup</button>
+      <input type="file" id="import-file-input" accept="application/json" class="hidden">
+    </div>
+  </section>
+
+  <!-- View 8: Dry Fire - a standalone shot timer, no results saved -->
+  <section id="dry-fire-view" class="hidden">
+    <button id="back-from-dry-fire-btn" class="secondary">&larr; Back</button>
+    <h2>Dry Fire</h2>
+
+    <label>Use a drill's par (optional)</label>
+    <select id="dry-fire-drill-select">
+      <option value="">Custom par time</option>
+    </select>
+
+    <label>Par Time (seconds)</label>
+    <input type="number" step="0.01" inputmode="decimal" id="dry-fire-par-time" placeholder="e.g. 2.00">
+
+    <div id="dry-fire-status" class="dry-fire-status dry-fire-status-idle">Ready</div>
+
+    <button id="start-dry-fire-btn">Start</button>
+    <button id="cancel-dry-fire-btn" class="secondary">Cancel</button>
+
+    <p class="dry-fire-note">Beep to start, second beep at par. Nothing here is saved - this is just a timer.</p>
+
+    <h3 class="dry-fire-exercises-heading">Technique Exercises (no timer needed)</h3>
+    <div id="dry-fire-exercise-list"></div>
+  </section>
+
+  <!-- Exercise Detail popup - About/Illustration, same shell as the drill detail popup -->
+  <div id="exercise-detail-overlay" class="hidden">
+    <div id="exercise-detail-modal">
+      <div class="drill-detail-header">
+        <h3 id="exercise-detail-name"></h3>
+        <button id="close-exercise-detail-btn">&times;</button>
+      </div>
+      <div class="drill-detail-tabs">
+        <button class="exercise-detail-tab active" data-tab="about">About</button>
+        <button class="exercise-detail-tab" data-tab="illustration">Illustration</button>
+      </div>
+      <div id="exercise-detail-content"></div>
+    </div>
+  </div>
+
+  <!-- View 6: drill library - view and edit saved drills -->
+  <section id="drill-library-view" class="hidden">
+    <button id="back-from-drill-library-btn" class="secondary">&larr; Back</button>
+    <h2>Drill Library</h2>
+    <button id="load-starter-drills-btn" class="secondary">+ Load Starter Drills</button>
+    <div id="drill-library-list"></div>
+  </section>
+
+  <!-- View 3: session history list -->
+  <section id="history-view" class="hidden">
+    <button id="back-from-history-btn" class="secondary">&larr; Back</button>
+    <h2>Past Sessions</h2>
+    <div id="history-list"></div>
+  </section>
+
+  <!-- View 4: personal records -->
+  <section id="pr-view" class="hidden">
+    <button id="back-from-pr-btn" class="secondary">&larr; Back</button>
+    <h2>Personal Records</h2>
+    <div id="pr-list"></div>
+  </section>
+
+  <!-- View 5: viewing/editing a past session -->
+  <section id="history-detail-view" class="hidden">
+    <button id="back-from-history-detail-btn" class="secondary">&larr; Back to History</button>
+    <div class="session-meta">
+      <input type="text" id="history-detail-name" placeholder="Session Name">
+      <p class="history-detail-date" id="history-detail-date"></p>
+    </div>
+    <div id="history-detail-drill-entries"></div>
+  </section>
+
+  <!-- View 7: templates - create/edit presets, started from the home screen -->
+  <section id="templates-view" class="hidden">
+    <button id="back-from-templates-btn" class="secondary">&larr; Back</button>
+    <h2>Templates</h2>
+    <button id="new-template-btn">+ New Template</button>
+
+    <div id="template-setup" class="hidden new-drill-setup">
+      <h4 id="template-setup-title">New Template</h4>
+
+      <label>Template Name</label>
+      <input type="text" id="template-name-input" placeholder="e.g. Draw & Movement Day">
+
+      <label>Add Drill (must already exist in your Drill Library)</label>
+      <div class="add-drill">
+        <select id="template-add-drill-select">
+          <option value="">Select a drill...</option>
+        </select>
+        <button id="template-add-drill-btn">Add</button>
+      </div>
+
+      <div id="template-drill-list"></div>
+
+      <button id="save-template-btn">Save Template</button>
+      <button id="cancel-template-btn" class="secondary">Cancel</button>
+    </div>
+
+    <div id="templates-list"></div>
+  </section>
+
+  <!-- View 2: shown while a session is in progress -->
+  <section id="active-session-view" class="hidden">
+    <div class="session-meta">
+      <input type="text" id="session-name" placeholder="Session Name (e.g. Draw & Movement Day)">
+    </div>
+
+    <div class="session-stats-bar">
+      <span id="session-timer">00:00</span>
+      <span id="session-rounds">0 rounds fired</span>
+    </div>
+
+    <!-- Drill sections get built dynamically here by app.js -->
+    <div id="drill-entries"></div>
+
+    <div class="add-drill">
+      <select id="add-drill-select">
+        <option value="">Select a drill...</option>
+      </select>
+      <button id="add-drill-btn">Add</button>
+    </div>
+
+    <!-- Shown when "+ Create New Drill" is chosen from the dropdown above -->
+    <div id="new-drill-setup" class="hidden new-drill-setup">
+      <h4>New Drill</h4>
+
+      <label>Drill Name</label>
+      <input type="text" id="new-drill-name-input" placeholder="e.g. Bill Drill">
+
+      <label>Instructions</label>
+      <textarea id="new-drill-instructions" rows="3" placeholder="Setup and execution instructions..."></textarea>
+
+      <label>Discipline</label>
+      <select id="new-drill-discipline">
+        <option value="pistol">Pistol</option>
+        <option value="rifle">Rifle</option>
+        <option value="combination">Combination (Rifle + Pistol)</option>
+      </select>
+
+      <label>Scoring Type</label>
+      <select id="new-drill-scoring-type">
+        <option value="uspsa_zones">USPSA Zones (A/C/D/M/NS)</option>
+        <option value="hit_miss">Hits vs Misses</option>
+        <option value="time_only">Time Only</option>
+      </select>
+
+      <div id="new-drill-power-factor-row">
+        <label>Power Factor</label>
+        <select id="new-drill-power-factor">
+          <option value="minor" selected>Minor</option>
+          <option value="major">Major</option>
+        </select>
+      </div>
+
+      <label>Round Count</label>
+      <input type="number" id="new-drill-round-count" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 6">
+
+      <label>Target Count</label>
+      <input type="number" id="new-drill-target-count" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 1">
+
+      <label>Par Time (optional, seconds)</label>
+      <input type="number" step="0.01" inputmode="decimal" id="new-drill-par-time" placeholder="optional">
+
+      <label>Tags (optional)</label>
+      <div class="tag-checkboxes" id="new-drill-tags">
+        <label class="tag-checkbox"><input type="checkbox" value="static"> Static / No Movement</label>
+        <label class="tag-checkbox"><input type="checkbox" value="movement"> Movement Required</label>
+        <label class="tag-checkbox"><input type="checkbox" value="indoor"> Indoor Compatible</label>
+        <label class="tag-checkbox"><input type="checkbox" value="outdoor-only"> Outdoor Only</label>
+      </div>
+
+      <button id="confirm-new-drill-btn">Save & Add to Session</button>
+      <button id="cancel-new-drill-btn" class="secondary">Cancel</button>
+    </div>
+
+    <button id="end-session-btn" class="secondary">End Session</button>
+  </section>
+
+  <!-- Drill Detail popup - read-only info/history/chart/records, reachable from any drill name -->
+  <div id="drill-detail-overlay" class="hidden">
+    <div id="drill-detail-modal">
+      <div class="drill-detail-header">
+        <h3 id="drill-detail-name"></h3>
+        <button id="close-drill-detail-btn">&times;</button>
+      </div>
+      <div class="drill-detail-tabs">
+        <button class="drill-detail-tab active" data-tab="about">About</button>
+        <button class="drill-detail-tab" data-tab="history">History</button>
+        <button class="drill-detail-tab" data-tab="chart">Chart</button>
+        <button class="drill-detail-tab" data-tab="records">Records</button>
+      </div>
+      <div id="drill-detail-content"></div>
+    </div>
+  </div>
+
+  <!-- View 9: Match Tracking - peer to Training, its own top-level section -->
+  <section id="match-tracking-view" class="hidden">
+    <button id="back-from-match-tracking-btn" class="secondary">&larr; Home</button>
+    <h2>Match Tracking</h2>
+
+    <div id="match-calendar"></div>
+
+    <button id="enter-match-btn">+ Enter Match</button>
+
+    <!-- Match entry/edit form, shown conditionally -->
+    <div id="match-entry-form" class="hidden new-drill-setup">
+      <h4 id="match-entry-title">Enter Match</h4>
+
+      <label>Status</label>
+      <select id="match-status-select">
+        <option value="upcoming">Upcoming</option>
+        <option value="completed">Completed</option>
+      </select>
+
+      <label>Date</label>
+      <input type="date" id="match-date-input">
+
+      <label>Match Name</label>
+      <input type="text" id="match-name-input" placeholder="e.g. Spring Classic">
+
+      <label>Division</label>
+      <input type="text" id="match-division-input" placeholder="e.g. Carry Optics" value="Carry Optics">
+
+      <!-- Only relevant once a match has actually been shot -->
+      <div id="match-results-fields">
+        <label>Number of Stages</label>
+        <input type="number" id="match-stage-count-input" inputmode="numeric" pattern="[0-9]*">
+
+        <label>Points Possible</label>
+        <input type="number" step="0.01" id="match-points-possible-input" inputmode="decimal">
+
+        <label>Points Acquired</label>
+        <input type="number" step="0.01" id="match-points-acquired-input" inputmode="decimal">
+
+        <label>Time (seconds)</label>
+        <input type="number" step="0.01" id="match-time-input" inputmode="decimal">
+
+        <label>Overall Match % (optional, from posted results)</label>
+        <input type="number" step="0.01" id="match-overall-percent-input" inputmode="decimal" placeholder="e.g. 82.45">
+
+        <label>Hit Breakdown</label>
+        <div class="hits-row-mini match-hits-row">
+          <input type="number" id="match-hits-a" placeholder="A" inputmode="numeric" pattern="[0-9]*">
+          <input type="number" id="match-hits-c" placeholder="C" inputmode="numeric" pattern="[0-9]*">
+          <input type="number" id="match-hits-d" placeholder="D" inputmode="numeric" pattern="[0-9]*">
+          <input type="number" id="match-hits-m" placeholder="M" inputmode="numeric" pattern="[0-9]*">
+          <input type="number" id="match-hits-npm" placeholder="NPM" inputmode="numeric" pattern="[0-9]*">
+          <input type="number" id="match-hits-ns" placeholder="NS" inputmode="numeric" pattern="[0-9]*">
+          <input type="number" id="match-hits-p" placeholder="P" inputmode="numeric" pattern="[0-9]*">
+        </div>
+      </div>
+
+      <button id="save-match-btn">Save Match</button>
+      <button id="cancel-match-btn" class="secondary">Cancel</button>
+      <button id="delete-match-btn" class="secondary hidden">Delete Match</button>
+    </div>
+
+    <h3 class="section-subheading">Performance Tracking</h3>
+    <div id="performance-tracking-content"></div>
+
+    <h3 class="section-subheading">Match History</h3>
+    <div id="match-history-list"></div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
